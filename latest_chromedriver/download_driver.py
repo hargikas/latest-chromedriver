@@ -233,7 +233,10 @@ def download_only_if_needed(chrome_path=None, chromedriver_folder=None):
     if chromedriver_folder:
         dpath = chromedriver_folder
     else:
-        dpath = ub.ensure_app_cache_dir('latest_chromedriver')
+        try:
+            dpath = ub.ensure_app_cache_dir('latest_chromedriver')
+        except Exception:
+            dpath = ub.Path.appdir('latest_chromedriver', type='cache').ensuredir()
 
     c_version = chrome_info.get_version(chrome_path=chrome_path)
     c_bits = chrome_info.get_architecture(chrome_path)
